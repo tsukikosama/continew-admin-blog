@@ -18,7 +18,7 @@
           <EmailLogin v-if="isEmailLogin" />
           <a-tabs v-else v-model:activeKey="activeTab" class="login-right__form">
             <a-tab-pane key="1" title="账号登录">
-              <component :is="AccountLogin" v-if="activeTab === '1'" />
+              <component :is="AccountLogin"  />
             </a-tab-pane>
             <a-tab-pane key="2" title="手机号登录">
               <component :is="PhoneLogin" v-if="activeTab === '2'" />
