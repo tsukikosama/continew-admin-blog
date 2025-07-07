@@ -25,21 +25,21 @@
         </a-button>
       </template>
       <template #toolbar-right>
-        <a-button v-permission="['ccblog:ccblog:create']" type="primary" @click="onAdd">
+        <a-button v-permission="['blog:blog:create']" type="primary" @click="onAdd">
           <template #icon><icon-plus /></template>
           <template #default>新增</template>
         </a-button>
-        <a-button v-permission="['ccblog:ccblog:export']" @click="onExport">
+        <a-button v-permission="['blog:blog:export']" @click="onExport">
           <template #icon><icon-download /></template>
           <template #default>导出</template>
         </a-button>
       </template>
       <template #action="{ record }">
         <a-space>
-          <a-link v-permission="['ccblog:ccblog:get']" title="详情" @click="onDetail(record)">详情</a-link>
-          <a-link v-permission="['ccblog:ccblog:update']" title="修改" @click="onUpdate(record)">修改</a-link>
+          <a-link v-permission="['blog:blog:get']" title="详情" @click="onDetail(record)">详情</a-link>
+          <a-link v-permission="['blog:blog:update']" title="修改" @click="onUpdate(record)">修改</a-link>
           <a-link
-            v-permission="['ccblog:ccblog:delete']"
+            v-permission="['blog:blog:delete']"
             status="danger"
             :disabled="record.disabled"
             :title="record.disabled ? '不可删除' : '删除'"
@@ -107,7 +107,7 @@ const columns: TableInstance['columns'] = [
     width: 160,
     align: 'center',
     fixed: !isMobile() ? 'right' : undefined,
-    show: has.hasPermOr(['ccblog:ccblog:get', 'ccblog:ccblog:update', 'ccblog:ccblog:delete'])
+    show: has.hasPermOr(['blog:blog:get', 'blog:blog:update', 'blog:blog:delete'])
   }
 ]
 

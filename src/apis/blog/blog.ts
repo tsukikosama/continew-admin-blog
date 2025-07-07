@@ -1,6 +1,6 @@
 import http from '@/utils/http'
 
-const BASE_URL = 'admin/ccblog'
+const BASE_URL = 'admin/blog'
 
 export interface BlogResp {
   id: string
