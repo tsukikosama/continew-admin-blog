@@ -49,6 +49,16 @@
           </a-link>
         </a-space>
       </template>
+      <template #picture =" {record}">
+        <a-image
+            width="50"
+            :src="record.picture"
+        />
+      </template>
+      <template #status = "{ record } ">
+
+         <a-tag color="blue">{{getBlogStatus(record?.status)?.label}}</a-tag>
+      </template>
     </GiTable>
 
     <BlogAddModal ref="BlogAddModalRef" @save-success="search" />
@@ -74,10 +84,16 @@ const queryForm = reactive<BlogQuery>({
   isValid: undefined,
   simpleTitle: undefined,
   userId: undefined,
-  state: undefined,
+  status: undefined,
   createTime: undefined,
   sort: ['id,desc']
 })
+
+const {blog_status, blog_status_enum} = useDict('blog_status', 'blog_status_enum')
+
+const getBlogStatus = (status) => {
+  return blog_status.value.find(item => item.value == status)
+}
 
 const {
   tableData: dataList,
@@ -97,11 +113,10 @@ const columns: TableInstance['columns'] = [
   { title: '标题', dataIndex: 'title', slotName: 'title' },
   { title: '图片', dataIndex: 'picture', slotName: 'picture' },
   { title: '内容', dataIndex: 'content', slotName: 'content' },
-  { title: '是否有效', dataIndex: 'isValid', slotName: 'isValid' },
-  { title: '流量数量', dataIndex: 'visit', slotName: 'visit' },
+  { title: '浏览数量', dataIndex: 'visit', slotName: 'visit' },
   { title: '简化标题', dataIndex: 'simpleTitle', slotName: 'simpleTitle' },
-  { title: '用户id', dataIndex: 'userId', slotName: 'userId' },
-  { title: '0保存 1发布', dataIndex: 'state', slotName: 'state' },
+  { title: '用户作者', dataIndex: 'userId', slotName: 'userId' },
+  { title: '状态', dataIndex: 'status', slotName: 'status' },
   { title: '创建时间', dataIndex: 'createTime', slotName: 'createTime' },
   { title: '创建人', dataIndex: 'createUserString', slotName: 'createUser' },
   { title: '更新时间', dataIndex: 'updateTime', slotName: 'updateTime' },
@@ -120,10 +135,9 @@ const columns: TableInstance['columns'] = [
 // 重置
 const reset = () => {
   queryForm.title = undefined
-  queryForm.isValid = undefined
   queryForm.simpleTitle = undefined
   queryForm.userId = undefined
-  queryForm.state = undefined
+  queryForm.status = undefined
   queryForm.createTime = undefined
   search()
 }

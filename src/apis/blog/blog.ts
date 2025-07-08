@@ -7,11 +7,10 @@ export interface BlogResp {
   title: string
   picture: string
   content: string
-  isValid: string
   visit: string
   simpleTitle: string
   userId: string
-  state: string
+  status: number
   createTime: string
   createUser: string
   updateTime: string
@@ -25,12 +24,10 @@ export interface BlogDetailResp {
   title: string
   picture: string
   content: string
-  isValid: string
-  version: string
   visit: string
   simpleTitle: string
   userId: string
-  state: string
+  status: number
   createTime: string
   createUser: string
   updateTime: string
@@ -40,10 +37,9 @@ export interface BlogDetailResp {
 }
 export interface BlogQuery {
   title: string | undefined
-  isValid: string | undefined
   simpleTitle: string | undefined
   userId: string | undefined
-  state: string | undefined
+  status: number | undefined
   createTime: string | undefined
   sort: Array<string>
 }

@@ -26,7 +26,11 @@
         </div>
       </template>
 
+    <template #status>
+      <a-radio-group :options="blog_status" v-model="form.status">
 
+      </a-radio-group>
+    </template>
     </GiForm>
   </a-modal>
 </template>
@@ -61,9 +65,9 @@ const [form, resetForm] = useResetReactive({
   // todo 待补充
   title:'',
   content:'',
-  status:'',
+  status:undefined,
   simpleTitle:'',
-  picture:[]
+  picture:''
 })
 
 const columns: ColumnItem[] = reactive([
@@ -92,7 +96,7 @@ const columns: ColumnItem[] = reactive([
     field: 'picture',
     type: 'upload',
     span: 24,
-    rules: [{required: true, message: '请选择图片'}],
+    // rules: [{required: true, message: '请选择图片'}],
     props: {
       action: `${import.meta.env.VITE_API_BASE_URL}common/file`,
       headers: {
@@ -113,11 +117,11 @@ const columns: ColumnItem[] = reactive([
       accept: '.jpg,.jpeg,.png',
       onSuccess:(fileItem)=>{
         // console.log(fileItem.response.data?.url,"success")
-        form.picture.push(fileItem.response.data?.url)
+        form.picture = fileItem.response.data?.url
       },
       onBeforeRemove:(fileItem)=>{
         // console.log(fileItem.url)
-        form.picture = form.picture.filter(item => item !== fileItem.url);
+        form.picture = '';
         // console.log(fileItem,"remove")
       },
     },
@@ -126,9 +130,6 @@ const columns: ColumnItem[] = reactive([
     label: '状态',
     field: 'status',
     type: "radio-group",
-    props:{
-      options: blog_status_enum,
-    },
     span: 24,
     required: true,
   },
