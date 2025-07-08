@@ -1,23 +1,23 @@
 <template>
   <div class="gi_table_page">
     <GiTable
-      title="博客管理"
-      row-key="id"
-      :data="dataList"
-      :columns="columns"
-      :loading="loading"
-      :scroll="{ x: '100%', y: '100%', minWidth: 1000 }"
-      :pagination="pagination"
-      :disabled-tools="['size']"
-      :disabled-column-keys="['name']"
-      @refresh="search"
+        title="博客管理"
+        row-key="id"
+        :data="dataList"
+        :columns="columns"
+        :loading="loading"
+        :scroll="{ x: '100%', y: '100%', minWidth: 1000 }"
+        :pagination="pagination"
+        :disabled-tools="['size']"
+        :disabled-column-keys="['name']"
+        @refresh="search"
     >
       <template #toolbar-left>
-	    <a-input-search v-model="queryForm.title" placeholder="请输入标题" allow-clear @search="search" />
-	    <a-input-search v-model="queryForm.isValid" placeholder="请输入是否有效" allow-clear @search="search" />
-	    <a-input-search v-model="queryForm.simpleTitle" placeholder="请输入简化标题" allow-clear @search="search" />
-	    <a-input-search v-model="queryForm.userId" placeholder="请输入用户id" allow-clear @search="search" />
-	    <a-input-search v-model="queryForm.state" placeholder="请输入0保存 1发布" allow-clear @search="search" />
+        <a-input-search v-model="queryForm.title" placeholder="请输入标题" allow-clear @search="search" />
+        <a-input-search v-model="queryForm.isValid" placeholder="请输入是否有效" allow-clear @search="search" />
+        <a-input-search v-model="queryForm.simpleTitle" placeholder="请输入简化标题" allow-clear @search="search" />
+        <a-input-search v-model="queryForm.userId" placeholder="请输入用户id" allow-clear @search="search" />
+        <a-input-search v-model="queryForm.state" placeholder="请输入0保存 1发布" allow-clear @search="search" />
         <DateRangePicker v-model="queryForm.createTime" @change="search" />
         <a-button @click="reset">
           <template #icon><icon-refresh /></template>
@@ -39,11 +39,11 @@
           <a-link v-permission="['blog:blog:get']" title="详情" @click="onDetail(record)">详情</a-link>
           <a-link v-permission="['blog:blog:update']" title="修改" @click="onUpdate(record)">修改</a-link>
           <a-link
-            v-permission="['blog:blog:delete']"
-            status="danger"
-            :disabled="record.disabled"
-            :title="record.disabled ? '不可删除' : '删除'"
-            @click="onDelete(record)"
+              v-permission="['blog:blog:delete']"
+              status="danger"
+              :disabled="record.disabled"
+              :title="record.disabled ? '不可删除' : '删除'"
+              @click="onDelete(record)"
           >
             删除
           </a-link>
@@ -87,7 +87,13 @@ const {
   handleDelete
 } = useTable((page) => listBlog({ ...queryForm, ...page }), { immediate: true })
 const columns: TableInstance['columns'] = [
-  { title: 'id', dataIndex: 'id', slotName: 'id' },
+  {
+    title: '序号',
+    width: 66,
+    align: 'center',
+    render: ({ rowIndex }) => h('span', {}, rowIndex + 1 + (pagination.current - 1) * pagination.pageSize),
+    fixed: !isMobile() ? 'left' : undefined,
+  },
   { title: '标题', dataIndex: 'title', slotName: 'title' },
   { title: '图片', dataIndex: 'picture', slotName: 'picture' },
   { title: '内容', dataIndex: 'content', slotName: 'content' },

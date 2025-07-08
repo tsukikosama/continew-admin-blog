@@ -26,6 +26,8 @@
     "@vue-office/pdf": "1.6.4",
     "@vueuse/components": "^10.5.0",
     "@vueuse/core": "^10.5.0",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "aieditor": "^1.0.13",
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",
