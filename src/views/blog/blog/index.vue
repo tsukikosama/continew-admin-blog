@@ -75,6 +75,7 @@ import { useDownload, useTable } from '@/hooks'
 import { useDict } from '@/hooks/app'
 import { isMobile } from '@/utils'
 import has from '@/utils/has'
+import {listTagDict} from "@/apis";
 
 defineOptions({ name: 'Blog' })
 
@@ -94,7 +95,7 @@ const {blog_status, blog_status_enum} = useDict('blog_status', 'blog_status_enum
 const getBlogStatus = (status) => {
   return blog_status.value.find(item => item.value == status)
 }
-
+listTagDict()
 const {
   tableData: dataList,
   loading,

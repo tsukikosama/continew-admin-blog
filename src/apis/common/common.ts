@@ -38,3 +38,11 @@ export function listSiteOptionDict() {
 export function uploadFile(data: FormData) {
   return http.post(`${BASE_URL}/file`, data)
 }
+
+/**
+ * 获取标签子带你
+ * @param query
+ */
+export function listTagDict(query?: { name: string }) {
+  return http.get<LabelValueState[]>(`${BASE_URL}/dict/tag`, query)
+}
