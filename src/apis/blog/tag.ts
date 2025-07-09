@@ -1,4 +1,6 @@
 import http from '@/utils/http'
+import type {LabelValueState} from "@/types/global";
+import {listTagDict} from "@/apis";
 
 const BASE_URL = '/admin/tag'
 
@@ -53,4 +55,23 @@ export function deleteTag(id: string) {
 /** @desc 导出标签 */
 export function exportTag(query: TagQuery) {
   return http.download(`${BASE_URL}/export`, query)
+}
+
+
+/** 客户模块 */
+export function useTag(options?: { onSuccess?: () => void }) {
+  const loading = ref(false)
+  const tagList = ref<LabelValueState[]>([])
+
+  const getTagList = async () => {
+    try {
+      loading.value = true
+      const res = await listTagDict()
+      tagList.value = res.data
+      options?.onSuccess && options.onSuccess()
+    } finally {
+      loading.value = false
+    }
+  }
+  return { tagList, getTagList, loading }
 }

@@ -52,6 +52,11 @@
           </a-link>
         </a-space>
       </template>
+      <template #webAccess ="{ record }">
+          <a-tag :color="getTagColor(getStatus(friend_link_access_status,record.webAccess)?.extra)">
+             {{getStatus(friend_link_access_status,record.webAccess)?.label}}
+          </a-tag>
+      </template>
     </GiTable>
 
     <FriendlinkAddModal ref="FriendlinkAddModalRef" @save-success="search" />
@@ -68,9 +73,11 @@ import { useDownload, useTable } from '@/hooks'
 import { useDict } from '@/hooks/app'
 import { isMobile } from '@/utils'
 import has from '@/utils/has'
+import {getStatus, getTagColor} from "../../../apis";
 
 defineOptions({ name: 'Friendlink' })
 
+const {friend_link_access_status, friend_link_access_status_enum} = useDict('friend_link_access_status', 'friend_link_access_status_enum')
 
 const queryForm = reactive<FriendlinkQuery>({
   webName: undefined,
@@ -100,7 +107,7 @@ const columns: TableInstance['columns'] = [
   { title: '网站名字', dataIndex: 'webName', slotName: 'webName' },
   { title: '网站描述', dataIndex: 'webDescript', slotName: 'webDescript' },
   { title: '网站图片', dataIndex: 'webImg', slotName: 'webImg' },
-  { title: '0为为审核通过 1为审核通过', dataIndex: 'webAccess', slotName: 'webAccess' },
+  { title: '审核状态', dataIndex: 'webAccess', slotName: 'webAccess' },
   { title: '用户邮箱', dataIndex: 'webEmail', slotName: 'webEmail' },
   { title: '创建时间', dataIndex: 'createTime', slotName: 'createTime' },
   { title: '更新时间', dataIndex: 'updateTime', slotName: 'updateTime' },
@@ -156,6 +163,9 @@ const FriendlinkDetailDrawerRef = ref<InstanceType<typeof FriendlinkDetailDrawer
 const onDetail = (record: FriendlinkResp) => {
   FriendlinkDetailDrawerRef.value?.onOpen(record.id)
 }
+
+
+
 </script>
 
 <style scoped lang="scss"></style>

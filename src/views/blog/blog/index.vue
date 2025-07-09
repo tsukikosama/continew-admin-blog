@@ -56,8 +56,13 @@
         />
       </template>
       <template #status = "{ record } ">
-
          <a-tag color="blue">{{getBlogStatus(record?.status)?.label}}</a-tag>
+      </template>
+
+      <template #tagId = "{ record } ">
+        <a-space>
+          <a-tag color="blue" v-for="(item,index) in record.tagId" :key="index">{{ getTagNameByTagId(item)?.label }}</a-tag>
+        </a-space>
       </template>
     </GiTable>
 
@@ -76,9 +81,15 @@ import { useDict } from '@/hooks/app'
 import { isMobile } from '@/utils'
 import has from '@/utils/has'
 import {listTagDict} from "@/apis";
+import {useTag} from "@/apis/blog/tag";
 
 defineOptions({ name: 'Blog' })
 
+
+const { tagList,getTagList } = useTag()
+
+
+getTagList()
 
 const queryForm = reactive<BlogQuery>({
   title: undefined,
@@ -112,6 +123,7 @@ const columns: TableInstance['columns'] = [
     fixed: !isMobile() ? 'left' : undefined,
   },
   { title: '标题', dataIndex: 'title', slotName: 'title' },
+  { title: '标签', dataIndex: 'tagId', slotName: 'tagId', width: 200 },
   { title: '图片', dataIndex: 'picture', slotName: 'picture' },
   { title: '内容', dataIndex: 'content', slotName: 'content' },
   { title: '浏览数量', dataIndex: 'visit', slotName: 'visit' },
@@ -171,6 +183,11 @@ const BlogDetailDrawerRef = ref<InstanceType<typeof BlogDetailDrawer>>()
 // 详情
 const onDetail = (record: BlogResp) => {
   BlogDetailDrawerRef.value?.onOpen(record.id)
+}
+
+const getTagNameByTagId = (id : number) => {
+  console.log(id)
+  return tagList.value.find(item => item.value == id)
 }
 </script>
 

@@ -46,3 +46,29 @@ export function uploadFile(data: FormData) {
 export function listTagDict(query?: { name: string }) {
   return http.get<LabelValueState[]>(`${BASE_URL}/dict/tag`, query)
 }
+
+export function getStatus(status : any[],value:number){
+
+  return status.find(item => item.value == value)
+}
+export function getTagColor(str:string){
+  let color = ""
+  switch (str) {
+    case 'primary':
+      color = "arcoblue"
+      break
+    case 'success':
+      color = "green"
+      break
+    case 'warning':
+      color = "orangered"
+      break
+    case 'error':
+      color = "red"
+      break
+    default:
+      color = "gray"
+  }
+  return color;
+
+}

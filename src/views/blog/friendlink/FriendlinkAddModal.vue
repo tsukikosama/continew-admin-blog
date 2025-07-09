@@ -27,6 +27,9 @@ const emit = defineEmits<{
 
 const { width } = useWindowSize()
 
+const {friend_link_access_status, friend_link_access_status_enum} = useDict('friend_link_access_status', 'friend_link_access_status_enum')
+
+
 const dataId = ref('')
 const visible = ref(false)
 const isUpdate = computed(() => !!dataId.value)
@@ -57,12 +60,21 @@ const columns: ColumnItem[] = reactive([
     field: 'webImg',
     type: 'input',
     span: 24,
-    required: true,
   },
   {
-    label: '0为为审核通过 1为审核通过',
+    label: '网站描述',
+    field: 'webDescript',
+    type: 'input',
+    span: 24,
+  },
+  {
+    label: '审核状态',
     field: 'webAccess',
     type: 'radio-group',
+    props:{
+      placeholder: '请选择状态',
+      options:friend_link_access_status
+    },
     span: 24,
     required: true,
   },
@@ -72,21 +84,9 @@ const columns: ColumnItem[] = reactive([
     type: 'input',
     span: 24,
     required: true,
+
   },
-  {
-    label: '创建时间',
-    field: 'createTime',
-    type: 'input',
-    span: 24,
-    required: true,
-  },
-  {
-    label: '创建人',
-    field: 'createUser',
-    type: 'input',
-    span: 24,
-    required: true,
-  },
+
 ])
 
 // 重置

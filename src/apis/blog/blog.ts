@@ -11,6 +11,7 @@ export interface BlogResp {
   simpleTitle: string
   userId: string
   status: number
+  tagId:number[]
   createTime: string
   createUser: string
   updateTime: string

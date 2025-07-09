@@ -46,6 +46,8 @@ import { useDict } from '@/hooks/app'
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
 
 import '@wangeditor/editor/dist/css/style.css'
+import {listTagDict} from "@/apis";
+import {useTag} from "@/apis/blog/tag";
 
 const emit = defineEmits<{
   (e: 'save-success'): void
@@ -54,6 +56,12 @@ const emit = defineEmits<{
 const { width } = useWindowSize()
 
 const {blog_status, blog_status_enum} = useDict('blog_status', 'blog_status_enum')
+
+const { tagList,getTagList } = useTag()
+
+
+getTagList()
+
 
 const dataId = ref('')
 const visible = ref(false)
@@ -67,7 +75,8 @@ const [form, resetForm] = useResetReactive({
   content:'',
   status:undefined,
   simpleTitle:'',
-  picture:''
+  picture:'',
+  tagId:[]
 })
 
 const columns: ColumnItem[] = reactive([
@@ -131,6 +140,17 @@ const columns: ColumnItem[] = reactive([
     field: 'status',
     type: "radio-group",
     span: 24,
+    required: true,
+  },
+  {
+    label: '标签',
+    field: 'tagId',
+    type: "select",
+    props: {
+      placeholder: '请选择标签',
+      options: tagList,
+      multiple:true,
+    },
     required: true,
   },
 ])
