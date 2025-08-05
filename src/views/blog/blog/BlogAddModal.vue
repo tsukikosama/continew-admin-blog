@@ -25,12 +25,6 @@
           />
         </div>
       </template>
-
-<!--    <template #status>-->
-<!--      <a-radio-group :options="blog_status" v-model="form.status">-->
-
-<!--      </a-radio-group>-->
-<!--    </template>-->
     </GiForm>
   </a-modal>
 </template>
@@ -73,7 +67,7 @@ const [form, resetForm] = useResetReactive({
   // todo 待补充
   title:'',
   content:'',
-  status:undefined,
+  status:'',
   simpleTitle:'',
   picture:'',
   tagId:[]
@@ -120,18 +114,14 @@ const columns: ColumnItem[] = reactive([
       },
       fileList: computed(() => {
         if (!form.picture) return [];
-        // console.log(form.previewImage ,"computed")
         return toFileList(form.picture);
       }),
       accept: '.jpg,.jpeg,.png',
       onSuccess:(fileItem)=>{
-        // console.log(fileItem.response.data?.url,"success")
         form.picture = fileItem.response.data?.url
       },
       onBeforeRemove:(fileItem)=>{
-        // console.log(fileItem.url)
         form.picture = '';
-        // console.log(fileItem,"remove")
       },
     },
   },

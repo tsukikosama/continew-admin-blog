@@ -82,6 +82,7 @@ import { isMobile } from '@/utils'
 import has from '@/utils/has'
 import {listTagDict} from "@/apis";
 import {useTag} from "@/apis/blog/tag";
+import {Tooltip} from "@arco-design/web-vue";
 
 defineOptions({ name: 'Blog' })
 
@@ -123,9 +124,9 @@ const columns: TableInstance['columns'] = [
     fixed: !isMobile() ? 'left' : undefined,
   },
   { title: '标题', dataIndex: 'title', slotName: 'title' },
-  { title: '标签', dataIndex: 'tagId', slotName: 'tagId', width: 200 },
+  { title: '标签', dataIndex: 'tagId', slotName: 'tagId', width: 100 },
   { title: '图片', dataIndex: 'picture', slotName: 'picture' },
-  { title: '内容', dataIndex: 'content', slotName: 'content' },
+  { title: '内容', dataIndex: 'content', slotName: 'content',ellipsis:true,tooltip: true, },
   { title: '浏览数量', dataIndex: 'visit', slotName: 'visit' },
   { title: '简化标题', dataIndex: 'simpleTitle', slotName: 'simpleTitle' },
   { title: '用户作者', dataIndex: 'userId', slotName: 'userId' },
@@ -186,7 +187,7 @@ const onDetail = (record: BlogResp) => {
 }
 
 const getTagNameByTagId = (id : number) => {
-  console.log(id)
+  console.log(id,tagList.value)
   return tagList.value.find(item => item.value == id)
 }
 </script>

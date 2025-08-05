@@ -28,7 +28,7 @@ export interface BlogDetailResp {
   visit: string
   simpleTitle: string
   userId: string
-  status: number
+  status: string
   createTime: string
   createUser: string
   updateTime: string
