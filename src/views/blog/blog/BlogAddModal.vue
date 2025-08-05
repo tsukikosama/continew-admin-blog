@@ -26,11 +26,11 @@
         </div>
       </template>
 
-    <template #status>
-      <a-radio-group :options="blog_status" v-model="form.status">
+<!--    <template #status>-->
+<!--      <a-radio-group :options="blog_status" v-model="form.status">-->
 
-      </a-radio-group>
-    </template>
+<!--      </a-radio-group>-->
+<!--    </template>-->
     </GiForm>
   </a-modal>
 </template>
@@ -135,13 +135,7 @@ const columns: ColumnItem[] = reactive([
       },
     },
   },
-  {
-    label: '状态',
-    field: 'status',
-    type: "radio-group",
-    span: 24,
-    required: true,
-  },
+
   {
     label: '标签',
     field: 'tagId',
@@ -151,6 +145,17 @@ const columns: ColumnItem[] = reactive([
       options: tagList,
       multiple:true,
     },
+    required: true,
+  },
+  {
+    label: '状态',
+    field: 'status',
+    type: "radio-group",
+    props:{
+      options:blog_status
+    },
+
+    span: 24,
     required: true,
   },
 ])
