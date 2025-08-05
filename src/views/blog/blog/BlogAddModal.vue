@@ -107,7 +107,7 @@ const columns: ColumnItem[] = reactive([
     span: 24,
     // rules: [{required: true, message: '请选择图片'}],
     props: {
-      action: `${import.meta.env.VITE_API_BASE_URL}common/file`,
+      action: `${import.meta.env.VITE_API_BASE_URL}/common/file`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`  // 或其他你的 token 格式
       },
