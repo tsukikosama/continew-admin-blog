@@ -14,10 +14,16 @@
     >
       <template #toolbar-left>
         <a-input-search v-model="queryForm.title" placeholder="请输入标题" allow-clear @search="search" />
-        <a-input-search v-model="queryForm.isValid" placeholder="请输入是否有效" allow-clear @search="search" />
-        <a-input-search v-model="queryForm.simpleTitle" placeholder="请输入简化标题" allow-clear @search="search" />
-        <a-input-search v-model="queryForm.userId" placeholder="请输入用户id" allow-clear @search="search" />
-        <a-input-search v-model="queryForm.state" placeholder="请输入0保存 1发布" allow-clear @search="search" />
+        <a-select
+            v-model="queryForm.tagId"
+                  placeholder="请选择标签"
+                  allow-clear
+                  @change="search"
+                  :options="tagList"
+                   >
+        </a-select>
+        <a-input-search v-model="queryForm.userId" placeholder="请输入用户名" allow-clear @search="search" />
+        <a-select  v-model="queryForm.status" :options="blog_status" placeholder="请输选择博客状态" allow-clear @change="search" />
         <DateRangePicker v-model="queryForm.createTime" @change="search" />
         <a-button @click="reset">
           <template #icon><icon-refresh /></template>
@@ -56,7 +62,8 @@
         />
       </template>
       <template #status = "{ record } ">
-         <a-tag color="blue">{{getBlogStatus(record?.status)?.label}}</a-tag>
+        <a-tag  :color="record?.status === 1 ? 'green' : 'orange'">{{getBlogStatus(record?.status)?.label}}</a-tag>
+
       </template>
 
       <template #tagId = "{ record } ">
@@ -83,6 +90,9 @@ import has from '@/utils/has'
 import {listTagDict} from "@/apis";
 import {useTag} from "@/apis/blog/tag";
 import {Tooltip} from "@arco-design/web-vue";
+import GiCellTag from '@/components/GiCell/GiCellTag.vue'
+import GiCellTags from '@/components/GiCell/GiCellTags.vue'
+import GiCellStatus from '@/components/GiCell/GiCellStatus.vue'
 
 defineOptions({ name: 'Blog' })
 
@@ -94,15 +104,15 @@ getTagList()
 
 const queryForm = reactive<BlogQuery>({
   title: undefined,
-  isValid: undefined,
   simpleTitle: undefined,
   userId: undefined,
   status: undefined,
   createTime: undefined,
+  tagId:undefined,
   sort: ['id,desc']
 })
 
-const {blog_status, blog_status_enum} = useDict('blog_status', 'blog_status_enum')
+const {blog_status} = useDict('blog_status')
 
 const getBlogStatus = (status) => {
   return blog_status.value.find(item => item.value == status)
@@ -129,12 +139,13 @@ const columns: TableInstance['columns'] = [
   { title: '内容', dataIndex: 'content', slotName: 'content',ellipsis:true,tooltip: true, },
   { title: '浏览数量', dataIndex: 'visit', slotName: 'visit' },
   { title: '简化标题', dataIndex: 'simpleTitle', slotName: 'simpleTitle' },
-  { title: '用户作者', dataIndex: 'userId', slotName: 'userId' },
-  { title: '状态', dataIndex: 'status', slotName: 'status' },
+  { title: '用户作者', dataIndex: 'nickname', slotName: 'nickname' },
+  { title: '状态', dataIndex: 'status', slotName: 'status'
+  },
   { title: '创建时间', dataIndex: 'createTime', slotName: 'createTime' },
-  { title: '创建人', dataIndex: 'createUserString', slotName: 'createUser' },
+  // { title: '创建人', dataIndex: 'createUserString', slotName: 'createUser' },
   { title: '更新时间', dataIndex: 'updateTime', slotName: 'updateTime' },
-  { title: '更新人', dataIndex: 'updateUserString', slotName: 'updateUser' },
+  // { title: '更新人', dataIndex: 'updateUserString', slotName: 'updateUser' },
   {
     title: '操作',
     dataIndex: 'action',
@@ -187,7 +198,6 @@ const onDetail = (record: BlogResp) => {
 }
 
 const getTagNameByTagId = (id : number) => {
-  console.log(id,tagList.value)
   return tagList.value.find(item => item.value == id)
 }
 </script>

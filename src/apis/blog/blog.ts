@@ -42,6 +42,7 @@ export interface BlogQuery {
   userId: string | undefined
   status: number | undefined
   createTime: string | undefined
+  tagId: string | undefined,
   sort: Array<string>
 }
 export interface BlogPageQuery extends BlogQuery, PageQuery {}
