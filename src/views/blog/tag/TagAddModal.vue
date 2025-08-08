@@ -35,6 +35,8 @@ const formRef = ref<InstanceType<typeof GiForm>>()
 
 const [form, resetForm] = useResetReactive({
   // todo 待补充
+  name: '',
+  imgUrl:'',
 })
 
 const columns: ColumnItem[] = reactive([
@@ -44,8 +46,56 @@ const columns: ColumnItem[] = reactive([
     type: 'input',
     span: 24,
   },
+  {
+    label: '标签名称',
+    field: 'name',
+    type: 'upload',
+    span: 24,
+    props: {
+      action: `${import.meta.env.VITE_API_BASE_URL}/common/file`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`  // 或其他你的 token 格式
+      },
+      limit:1,
+      multiple: true,
+      listType: 'picture-card',
+      onPreview: (file) => {
+        // ✅ 点击图片时预览，可以打开新窗口或自定义弹窗
+        window.open(file.url || file.response?.url, '_blank')
+      },
+      fileList: computed(() => {
+        if (!form.imgUrl) return [];
+        return toFileList(form.imgUrl);
+      }),
+      accept: '.jpg,.jpeg,.png',
+      onSuccess:(fileItem)=>{
+        form.imgUrl = fileItem.response.data?.url
+      },
+      onBeforeRemove:(fileItem)=>{
+        form.imgUrl = '';
+      },
+    },
+  },
 ])
 
+const toFileList = (urls: string[] | string | undefined): { name: string, url: string }[] => {
+  if (!urls || (typeof urls === 'string' && urls.trim() === '')) {
+    return [];
+  }
+
+  // 如果是字符串就转成数组
+  const urlList = Array.isArray(urls) ? urls : urls.split(',');
+
+  return urlList
+      .filter((url) => !!url && url.trim().length > 0)
+      .map((url) => {
+        const parts = url.split('/').pop();
+        return {
+          name: parts ?? '文件',
+          url: url
+        };
+      });
+};
 // 重置
 const reset = () => {
   formRef.value?.formRef?.resetFields()

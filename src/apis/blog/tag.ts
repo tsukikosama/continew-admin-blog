@@ -6,6 +6,7 @@ const BASE_URL = '/admin/tag'
 
 export interface TagResp {
   id: string
+  imgUrl: string
   name: string
   createTime: string
   updateTime: string
@@ -16,6 +17,7 @@ export interface TagResp {
 export interface TagDetailResp {
   id: string
   name: string
+  imgUrl: string
   createTime: string
   updateTime: string
   createUserString: string

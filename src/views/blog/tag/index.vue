@@ -44,6 +44,12 @@
           </a-link>
         </a-space>
       </template>
+      <template #imgUrl = "{ record }">
+        <a-image
+            width="50"
+            :src="record.imgUrl"
+        />
+      </template>
     </GiTable>
 
     <TagAddModal ref="TagAddModalRef" @save-success="search" />
@@ -85,6 +91,7 @@ const columns: TableInstance['columns'] = [
     fixed: !isMobile() ? 'left' : undefined,
   },
   { title: '标签名称', dataIndex: 'name', slotName: 'name' },
+  { title: '标签图片', dataIndex: 'imgUrl', slotName: 'imgUrl' },
   { title: '创建时间', dataIndex: 'createTime', slotName: 'createTime' },
   { title: '修改时间', dataIndex: 'updateTime', slotName: 'updateTime' },
   {
